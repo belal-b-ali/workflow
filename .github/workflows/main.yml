@@ -1,0 +1,48 @@
+---
+name: Reusable workflow example
+# description: Reusable workflow example
+
+# inputs:
+#   BUILD_TOKEN:
+#     required: true
+#     description: the build token
+  
+#   SSH_BUILD_KEY:
+#     required: true
+#     description: the SSH build key
+
+on:
+  workflow_call:
+    inputs:
+      BUILD_TOKEN:
+        required: true
+        type: string
+        description: the build token
+  
+      SSH_BUILD_KEY:
+        required: true
+        type: string
+        description: the SSH build key
+
+env:
+  VAULT_ADDR: https://vault.cdsshopprod.cdsglobalapps.com
+  REGISTRY_HOST: 944284896973.dkr.ecr.us-east-1.amazonaws.com/cds
+  APP_NAME: resin-data-capture
+  PR_CLUSTER: cdsshopqa
+  PR_CLUSTER_DOMAIN: cdsglobalapps.net
+
+
+jobs:
+  setup:
+    permissions:
+      actions: write
+      pull-requests: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: prints
+        run: | 
+          echo "BUILD_TOKEN: ${{ inputs.BUILD_TOKEN }}"
+          echo "SSH_BUILD_KEY: ${{ inputs.SSH_BUILD_KEY }}"
+      
